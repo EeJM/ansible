@@ -1,0 +1,16 @@
+#Variables that are visible from all roles
+
+# ssh config file
+
+sshd_port: 5222
+sshd_permitrootlogin: "yes"
+sshd_pubkeyauth: "yes"
+sshd_passwdauth: "no"
+
+# Nginx config file
+
+nginx_user: nginx
+nginx_workers: 1024
+nginx_servername: eeromikkonen.com www.eeromikkonen.com
+nginx_webname: eeromikkonen
+

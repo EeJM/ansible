@@ -1,0 +1,12 @@
+---
+# Restart sshd service
+- name: restart sshd
+  service: name=sshd state=restarted
+
+# Restart nginx service
+- name: restart nginx
+  service: name=nginx state=restarted
+
+# Close the defaul ssh port
+#- name: close old ssh
+#  ufw: rule=deny port=22 proto=tcp log=yes

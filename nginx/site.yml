@@ -1,0 +1,7 @@
+---
+- name: Configure the web server
+  hosts: webservers
+  user: root
+
+  roles:
+   - common

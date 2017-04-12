@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>This is my website created from scratch with ansible</title>
+</head>
+<body>
+	<h1>Hello world!</h1>
+	<p>Ansible is the best!</p>
+</body>
+</html>

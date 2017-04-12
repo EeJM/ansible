@@ -1,0 +1,48 @@
+---
+
+- name: Create user eero
+  user: name=eero shell=/bin/bash groups=wheel append=yes
+
+- name: Install vim
+  yum: name=vim state=latest
+
+- name: Install latest openssh-server
+  yum: name=openssh-server state=latest
+
+- name: Add epel repos for ufw and other nice packages
+  yum: name=epel-release state=present
+
+- name: Install ufw
+  yum: name=ufw state=present
+
+- name: Open the firewall for the current ssh port
+  ufw: policy=allow port=22 proto=tcp
+
+- name: Open the firewall for the new ssh port
+  ufw: policy=allow port={{ sshd_port }} proto=tcp
+
+- name: Enable ufw
+  ufw: state=enabled log=yes
+
+- name: Copy the sshd configuration
+  template: src=sshdconfig.template dest=/etc/ssh/sshd_config
+  notify: restart sshd
+
+- name: Deny old default sshd port
+  ufw: policy=deny port=22 proto=tcp log=yes
+
+- name: Install nginx
+  yum: name=nginx state=latest
+
+- name: Create the web folder /var/www/{{ nginx_webname }}
+  file: path=/var/www/{{ nginx_webname }} state=directory owner={{ nginx_user }} group={{ nginx_user }} mode=0744
+
+- name: Copy over the html files
+  template: src=indexhtml.template dest=/var/www/{{ nginx_webname }}/index.html owner={{ nginx_user }} group={{ nginx_user }}
+
+- name: Allow port 80/tcp
+  ufw: policy=allow port=80 proto=tcp
+
+- name: Copy the nginx configuration
+  template: src=nginxconfig.template dest=/etc/nginx/nginx.conf
+  notify: restart nginx
