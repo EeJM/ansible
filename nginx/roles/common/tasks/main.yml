@@ -40,6 +40,9 @@
 - name: Copy over the html files
   template: src=indexhtml.template dest=/var/www/{{ nginx_webname }}/index.html owner={{ nginx_user }} group={{ nginx_user }}
 
+- name: Allow port 443/tcp
+  ufw: policy=allow port=443 proto=tcp
+
 - name: Allow port 80/tcp
   ufw: policy=allow port=80 proto=tcp
 
